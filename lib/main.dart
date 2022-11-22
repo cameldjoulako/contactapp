@@ -50,9 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<PersonneProvider> getInstance() async {
-    return provider = await PersonneProvider.instance;
+    return provider = PersonneProvider.instance;
   }
 
+  /* Enregistrement des données en BD */
   Future<void> enregistrer() async {
     int id = await provider.insert(personneEnregistree);
     mapPersonneRecuperee = {'id': id};
@@ -63,6 +64,44 @@ class _MyHomePageState extends State<MyHomePage> {
         return const AlertDialog(
           title: Text('Enregistrement'),
           content: Text('Les données ont été enregistrées !'),
+        );
+      },
+    );
+  }
+
+  /* Recuperation des données en BD */
+  Future<void> recuperer() async {
+    if (personneRecuperee.toMap()['id'] != null) {
+      personneRecuperee =
+          (await provider.getPersonne(personneRecuperee.toMap()['id']))!;
+      setState(() {});
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            title: Text('Récupération'),
+            content: Text('Aucune donnée à récupérer !'),
+          );
+        },
+      );
+    }
+  }
+
+  /* Suppression des données en BD */
+  Future<void> supprimer() async {
+    await provider.delete(personneRecuperee.toMap()['id']);
+    setState(
+      () {
+        personneRecuperee = Personne();
+      },
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          title: Text('Suppression'),
+          content: Text('Les données ont été supprimées !'),
         );
       },
     );
@@ -263,16 +302,16 @@ class _MyHomePageState extends State<MyHomePage> {
               // ignore: prefer_const_literals_to_create_immutables
               children: [
                 TextButton(
-                  onPressed: null /* enregistrer */,
-                  child: Text('Enregistrer'),
+                  onPressed: enregistrer,
+                  child: const Text('Enregistrer'),
                 ),
                 TextButton(
-                  onPressed: null /* recuperer */,
-                  child: Text('Lire les données'),
+                  onPressed: recuperer,
+                  child: const Text('Lire les données'),
                 ),
                 TextButton(
-                  onPressed: null /* supprimer */,
-                  child: Icon(
+                  onPressed: supprimer,
+                  child: const Icon(
                     Icons.delete,
                     color: Colors.white,
                   ),
