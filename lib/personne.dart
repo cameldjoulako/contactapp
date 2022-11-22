@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:async';
 import 'dart:core';
 import 'dart:io';
 import 'package:path/path.dart';
@@ -12,8 +10,8 @@ const String colonneNom = 'nom';
 const String colonnePrenom = 'prénom';
 const String colonneAge = 'age';
 
-final String databaseName = 'PersonneDB.db';
-final int databaseVersion = 1;
+const String databaseName = 'PersonneDB.db';
+const int databaseVersion = 1;
 
 class Personne {
   late int id;
@@ -21,7 +19,7 @@ class Personne {
   late String prenom;
   late String age;
 
-  Personne(this.id, this.nom, this.prenom, this.age);
+  Personne();
 
   Personne.fromMap(Map<String, dynamic> map) {
     id = map[colonneId];
