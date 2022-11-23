@@ -14,10 +14,10 @@ const String databaseName = 'PersonneDB.db';
 const int databaseVersion = 1;
 
 class Personne {
-  late int id;
-  late String nom;
-  late String prenom;
-  late String age;
+  int? id;
+  String? nom;
+  String? prenom;
+  String? age;
 
   Personne();
 
